@@ -7,9 +7,9 @@ const exphbs = require('express-handlebars');
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-
-var db = require("./models");
+//Capturing models
 var ArticleMod = require("./models/Article");
+var CommentMod = require("./models/Comment");
 
 
 
@@ -91,7 +91,7 @@ app.get("/articles/:id", function(req, res) {
   
     // Create a new Comment and pass the req.body to the entry
       app.post("/articles/:id", function(req, res) {
-        db.Comment.create(req.body)
+        CommentMod.create(req.body)
         .then(function(dbComment) {
             return ArticleMod.findOneAndUpdate({ _id: req.params.id }, { Comment: dbComment._id }, { new: true });
         })
@@ -122,7 +122,7 @@ app.delete("/articles/remove/:id", function (req, res) {
       .then(function (dbArticle) {
         var newComment = dbArticle.Comment
       }).then(function () {
-        db.Comment.remove({ _id: newComment})
+        CommentMod.remove({ _id: newComment})
       })
       .catch(function (err) {
         res.json(err);
