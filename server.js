@@ -27,9 +27,9 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(express.static("public"));
 
-mongoose.Promise = Promise;
 
 var MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/mongo-scrape';
+mongoose.Promise = Promise;
 
 mongoose.connect(MONGODB_URI);
 
