@@ -7,9 +7,9 @@ const exphbs = require('express-handlebars');
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-//Capturing models
-var ArticleMod = require("./models/Article");
-var CommentMod = require("./models/Comment");
+//Capturing mod
+var ArticleMod = require("./models/Article.js");
+var CommentMod = require("./models/Comment.js");
 
 
 
