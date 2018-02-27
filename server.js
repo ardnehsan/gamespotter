@@ -8,8 +8,8 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 //Capturing mod
-var ArticleMod = require("./models/Article.js");
-var CommentMod = require("./models/Comment.js");
+var ArticleMod = require("./models/article.js");
+var CommentMod = require("./models/comment.js");
 
 
 
