@@ -9,6 +9,9 @@ var cheerio = require("cheerio");
 
 
 var db = require("./models");
+var ArticleMod = require("./models/Article");
+
+
 
 var PORT = process.env.PORT || 3000;
 
@@ -49,7 +52,7 @@ app.get("/scrape", function(req,res){
         result.link = $(this).children("a").attr("href");
 
 
-        db.Article.create(result)
+        ArticleMod.create(result)
         .then(function(dbArticle) {
           console.log(dbArticle);
         })
@@ -64,7 +67,7 @@ app.get("/scrape", function(req,res){
 
 app.get("/articles", function(req,res){
 
-        db.Article.find({})
+        ArticleMod.find({})
         .then(function(dbArticle){
             res.json(dbArticle);
         })
@@ -75,7 +78,7 @@ app.get("/articles", function(req,res){
 
 
 app.get("/articles/:id", function(req, res) {
-    db.Article.findOne({ _id: req.params.id })
+    ArticleMod.findOne({ _id: req.params.id })
       .populate("Comment")
       .then(function(dbArticle) {
         res.json(dbArticle);
@@ -90,7 +93,7 @@ app.get("/articles/:id", function(req, res) {
       app.post("/articles/:id", function(req, res) {
         db.Comment.create(req.body)
         .then(function(dbComment) {
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, { Comment: dbComment._id }, { new: true });
+            return ArticleMod.findOneAndUpdate({ _id: req.params.id }, { Comment: dbComment._id }, { new: true });
         })
         .then(function(dbArticle) {
             res.json(dbArticle);
@@ -103,7 +106,7 @@ app.get("/articles/:id", function(req, res) {
 
   // Route for grabbing a specific Article by id
 app.delete("/articles/remove/:id", function (req, res) {
-    db.Article.remove({ _id: req.params.id })
+    ArticleMod.remove({ _id: req.params.id })
       .then(function (dbArticle) {
         res.json(dbArticle);
       })
@@ -115,7 +118,7 @@ app.delete("/articles/remove/:id", function (req, res) {
 
   // Using the id passed in the id parameter, remove it from our db...
   app.delete("/articles/removeComment/:id", function (req, res) {
-    db.Article.findOne({ _id: req.params.id })
+    ArticleMod.findOne({ _id: req.params.id })
       .then(function (dbArticle) {
         var newComment = dbArticle.Comment
       }).then(function () {
